@@ -6,11 +6,18 @@ public class GameTicker {
 
 	public TickerEvent generateEvent(int time, Match m) {
 		EventType event = this.randomEvent();
+		Team aTeam = this.randomTeam(m);
+		Player player = this.randomPlayer(aTeam);
+
 		if (event == EventType.FINISHED || event == EventType.HALFTIME
 				|| event == EventType.KICK_OFF) {
+			// these 3 event will not be generated randomly(return false when
+			// bei validateEvent)
 			return new TickerEvent(m, time, null, null, event);
+		} else if (event == EventType.YELLOW_RED_CARD && player.yellowCard == 1) {
+			// a player will be sent off with red-yellow card
+			return new TickerEvent(m, time, aTeam, player, event);
 		} else {
-			Team aTeam = this.randomTeam(m);
 			return new TickerEvent(m, time, aTeam, randomPlayer(aTeam), event);
 		}
 	}
