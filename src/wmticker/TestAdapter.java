@@ -60,6 +60,7 @@ public class TestAdapter implements TestHarness {
 	public TickerEvent generateRandomEvent(Match m, GameTicker t,
 			int currentTime) {
 		TickerEvent event;
+		// try until a valid event has been generated
 		do {
 			event = t.generateEvent(currentTime, m);
 		} while (!validateEvent(m, t, event));
@@ -68,6 +69,7 @@ public class TestAdapter implements TestHarness {
 
 	@Override
 	public void processEvent(Match m, TickerEvent event) {
+		// change some parameters of some objects if needed
 		if (event.type == EventType.GOAL) {
 			m.goal(event.team);
 			event.player.goals++;
@@ -89,12 +91,13 @@ public class TestAdapter implements TestHarness {
 		Random time = new Random();
 		int gameTime = 0;// current game time
 		TickerEvent aEvent;// a random event
-		Vector<TickerEvent> wholeGame = new Vector<>();
+		Vector<TickerEvent> wholeGame = new Vector<TickerEvent>();
 		boolean halfTime = false;// whether the game comes to second half
 
 		// match starts at 0'
 		wholeGame
 				.add(new TickerEvent(match, 0, null, null, EventType.KICK_OFF));
+
 		while (gameTime < 90) {
 			gameTime += time.nextInt(intensity);
 			// check for Halbzeitpfiff
@@ -130,7 +133,14 @@ public class TestAdapter implements TestHarness {
 
 	@Override
 	public boolean validateEvent(Match match, GameTicker t, TickerEvent event) {
-		if (!event.player.sentOff) {
+
+		if (event.type == EventType.FINISHED
+				|| event.type == EventType.HALFTIME
+				|| event.type == EventType.KICK_OFF) {
+			return false;
+		}
+		// a event can only be valid under these circumstances
+		else if (!event.player.sentOff) {
 			if (event.type == EventType.YELLOW_CARD
 					&& event.player.yellowCard == 0) {
 				return true;
@@ -141,7 +151,9 @@ public class TestAdapter implements TestHarness {
 				return true;
 			} else
 				return true;
-		} else
+		} 
+		// otherwise will it be invalid
+		else
 			return false;
 	}
 

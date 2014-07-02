@@ -19,9 +19,12 @@ public class TickerEvent {
 
 	public String toString() {
 		StringBuilder report = new StringBuilder();
-		report.append(time).append("'. ").append(type).append(" ")
-				.append(player.name).append(" (").append(team.name)
-				.append(", ").append(player.number).append(")");
+		report.append(time).append("'. ").append(type);
+		if (player != null) {
+			report.append(" ").append(player.name).append(" (")
+					.append(team.name).append(", ").append(player.number)
+					.append(")");
+		}
 		return report.toString();
 	}
 }

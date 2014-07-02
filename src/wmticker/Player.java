@@ -4,16 +4,20 @@ public class Player {
 	String name;
 	int number;
 	Position position;
-	int redCard = 0;
-	int yellowCard = 0;
-	int goals = 0;
-	int ownGoals = 0;
-	boolean sentOff = false;
+	int redCard;
+	int yellowCard;
+	int goals;
+	int ownGoals;
+	boolean sentOff;
 
 	public Player(String aName, int nr, Position pos) {
 		name = aName;
 		number = nr;
-		position = pos;// TODO check if it can be initialized
+		position = pos;
+		redCard = 0;
+		yellowCard = 0;
+		ownGoals = 0;
+		sentOff = false;
 	}
 
 	void setPosition(Position newPosition) {
