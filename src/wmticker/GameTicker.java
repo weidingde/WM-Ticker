@@ -33,7 +33,7 @@ public class GameTicker {
 
 	// get a random player
 	private Player randomPlayer(Team team) {
-		int number = new Random().nextInt(10);
+		int number = new Random().nextInt(aTeam.players.size());
 		return team.players.get(number);
 	}
 
